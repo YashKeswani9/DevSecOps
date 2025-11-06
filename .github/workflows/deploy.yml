@@ -194,7 +194,7 @@ jobs:
                 break
               else
                 echo "⚠️ Push failed for ${SERVICE}, attempt $i/3. Retrying..."
-                git pull --rebase origin gitops
+                git pull --rebase origin main
                 sleep 2
               fi
               
