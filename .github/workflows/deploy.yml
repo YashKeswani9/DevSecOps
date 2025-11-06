@@ -189,7 +189,7 @@ jobs:
             
             # Push with retry logic
             for i in {1..3}; do
-              if git push origin gitops; then
+              if git push origin main; then
                 echo "✅ Successfully pushed Helm update for ${SERVICE}"
                 break
               else
