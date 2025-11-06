@@ -221,21 +221,14 @@ jobs:
       git add "src/${SERVICE}/chart/values.yaml"
       git commit -m "🚀 Update ${SERVICE} Helm chart to ${TAG} - ECR: retail-store-${SERVICE} - Commit: ${{ github.sha }}"
       
-      # Push with retry logic (all on main)
+      # Push with retry logic to main
       for i in {1..3}; do
-        if git push origin main; then
-          echo "✅ Successfully pushed Helm update for ${SERVICE}"
+        if git push origin HEAD:main; then
+          echo "✅ Successfully pushed Helm update for ${SERVICE} to main"
           break
         else
           echo "⚠️ Push failed for ${SERVICE}, attempt $i/3. Retrying..."
-          # Rebase from main to resolve any concurrent changes
-          if git pull --rebase origin main; then
-            # Force push if rebase succeeds (safe for bot commits)
-            git push --force-with-lease origin main
-          else
-            echo "❌ Rebase failed, manual intervention needed for ${SERVICE}"
-            exit 1
-          fi
+          git pull --rebase origin main
           sleep 2
         fi
         
